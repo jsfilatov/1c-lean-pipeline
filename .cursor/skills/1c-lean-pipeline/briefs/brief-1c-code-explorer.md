@@ -1,0 +1,33 @@
+## Задача исследования 1С
+
+## Машинный handoff (JSON)
+
+- **Запрос:** `{{HANDOFF_JSON}}` — JSON, соответствующий схеме `.cursor/skills/1c-lean-pipeline/schemas/handoff-request.schema.json`. Прочитай JSON, но MCP-first важнее `anchors` и `read_paths`: используй их только как подсказки стартовых точек после первичного MCP-discovery.
+- **Ответ (опционально):** если оркестратор подставил непустой путь `{{HANDOFF_RESPONSE_JSON}}`, запиши туда JSON по схеме `.cursor/skills/1c-lean-pipeline/schemas/handoff-response.schema.json`; иначе достаточно раздела «Ответ в чат» ниже.
+
+- **Каталог задачи:** {{TASK_DIR}}
+- **Сложность (контекст):** {{COMPLEXITY}}
+- **Фокус:** {{FOCUS}}
+
+## Обязательно прочитай перед анализом
+
+1. Срезы из `{{HANDOFF_JSON}}` (`slices.phase1_summary`, `slices.phase0_summary`, `anchors`, `read_paths`).
+2. Если среза нет — `{{TASK_DIR}}/phase1-requirements.md`, `{{TASK_DIR}}/phase0-complexity.md`
+3. Якоря из `anchors[]` — как подсказки стартовых точек после MCP-first (см. `@rules/code-explorer-rules.mdc`).
+4. Не читай будущие `proposal.md`, `design.md`, `tasks.md`, если они ещё не созданы и не утверждены.
+
+## Результат
+
+Заполни или создай файл **`{{TASK_DIR}}/discovery.md`** со структурой:
+
+1. Гипотезы (где может быть логика)
+2. Подтверждённые цепочки вызовов (от входа к данным)
+3. Таблица точек модификации: объект метаданных / файл / процедура (если известно)
+4. Приоритетные файлы для проектирования: не более 8 путей (или файл + ключевая процедура) по убыванию влияния
+5. Риски и открытые вопросы
+
+Соблюдай `@rules/code-explorer-rules.mdc` и цепочку инструментов из корневого `AGENTS.md` (раздел **# Tooling**, **Important Rules** п.7).
+
+## Ответ в чат
+
+3–7 строк: краткий вывод + путь к `discovery.md`. Не копируй весь файл в ответ.

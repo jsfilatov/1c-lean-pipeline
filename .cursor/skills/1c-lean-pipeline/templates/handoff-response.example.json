@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "task_dir": ".tasks/task-example-feature",
+  "call_id": "2026-04-16T12-00-00Z-p3-analytic",
+  "target_subagent": "1c-analytic",
+  "chat_summary": [
+    "OpenSpec proposal обновлён: добавлены требования и сценарии.",
+    "Delta specs сохранены под openspec/changes/example-feature/specs/.",
+    "Следующий шаг: gate G1 (утверждение proposal и delta specs)."
+  ],
+  "primary_artifacts": [
+    "openspec/changes/example-feature/proposal.md",
+    "openspec/changes/example-feature/specs/example-domain/spec.md"
+  ],
+  "changed_source_files": [],
+  "notes": ""
+}
