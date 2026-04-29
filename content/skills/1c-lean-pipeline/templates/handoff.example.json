@@ -1,0 +1,14 @@
+{
+  "task_dir": ".tasks/task-example-feature",
+  "openspec_change": "openspec/changes/example-feature",
+  "feature_slug": "example-feature",
+  "complexity": "средняя",
+  "phase": 6,
+  "task_id": "T-01",
+  "req_ids": ["REQ-01", "REQ-02"],
+  "read_paths": [
+    ".tasks/task-example-feature/phase9-context-index.md",
+    "openspec/changes/example-feature/tasks.md"
+  ],
+  "write_hint": "Обновить OpenSpec tasks.md и перечисленные исходники по индексу"
+}

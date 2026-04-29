@@ -1,0 +1,31 @@
+# Adapter: OpenAI Codex CLI
+#
+# Describes how to copy and adapt files from content/ for Codex CLI.
+
+tool: codex
+schemaVersion: 1
+
+detection:
+  - exists: ".codex/"
+  - exists: "AGENTS.md"
+
+rules:
+  copyTo: ".codex/rules/{name}.md"
+  frontmatter:
+    keep: [description, alwaysApply]
+    drop: [globs, category]
+
+agents:
+  copyTo: ".codex/agents/{name}.toml"
+  mode: rebuild-toml
+  template: |
+    name = "{name}"
+    description = "{description}"
+    model = "{modelHint}"
+    developer_instructions = """
+    {body}
+    """
+
+skills:
+  copyTo: ".codex/skills/{name}/"
+  mode: verbatim

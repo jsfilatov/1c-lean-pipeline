@@ -1,0 +1,31 @@
+# Adapter: OpenCode
+#
+# Describes how to copy and adapt files from content/ for OpenCode CLI.
+
+tool: opencode
+schemaVersion: 1
+
+detection:
+  - exists: ".opencode/"
+  - exists: "opencode.json"
+
+rules:
+  copyTo: ".opencode/rules/{name}.md"
+  frontmatter:
+    keep: [description, alwaysApply]
+    drop: [globs, category]
+
+agents:
+  copyTo: ".opencode/agent/{name}.md"
+  frontmatter:
+    keep: [name, description, tools, modelHint]
+    rename:
+      modelHint: model
+    addIf:
+      isSubagent: { mode: subagent }
+      "!isSubagent": { mode: primary }
+    drop: [isSubagent, allowParallel]
+
+skills:
+  copyTo: ".opencode/skills/{name}/"
+  mode: verbatim

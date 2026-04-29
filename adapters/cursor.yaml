@@ -1,0 +1,26 @@
+# Adapter: Cursor
+#
+# Describes how to copy and adapt files from content/ for Cursor IDE.
+
+tool: cursor
+schemaVersion: 1
+
+detection:
+  - exists: ".cursor/"
+
+rules:
+  copyTo: ".cursor/rules/{name}.mdc"
+  frontmatter:
+    keep: [description, globs, alwaysApply]
+    drop: [category]
+
+agents:
+  copyTo: ".cursor/agents/{name}.md"
+  frontmatter:
+    keep: [name, description, tools, modelHint, allowParallel, isSubagent]
+    rename:
+      modelHint: model
+
+skills:
+  copyTo: ".cursor/skills/{name}/"
+  mode: verbatim

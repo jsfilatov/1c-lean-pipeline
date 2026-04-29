@@ -21,13 +21,13 @@
 - Каталог вида `.tasks/task-[краткое-имя]/` — служебная папка оркестратора: состояние, первичные требования, исследование, ревью, handoff и индекс контекста.
 - Каталог вида `openspec/changes/[change-id]/` — SDD-источник истины: `proposal.md`, `design.md`, `tasks.md`, delta specs. Полные копии этих файлов в `.tasks` не создаются.
 - Файл `workflow-state.md` — закладка процесса: на каком этапе вы остановились, какой `openspec_change` активен и нужен ли ваш ответ, прежде чем двигаться дальше. Для новой задачи `openspec_change` создаётся самим навыком в фазе 0.
-- Подкаталог `handoff/` — JSON **HandoffRequest** и опционально **HandoffResponse** для вызовов субагентов по схемам в `schemas/`; в промпт уходит только путь к файлу, см. `.cursor/skills/1c-lean-pipeline/SKILL.md` («JSON handoff»).
+- Подкаталог `handoff/` — JSON **HandoffRequest** и опционально **HandoffResponse** для вызовов субагентов по схемам в `schemas/`; в промпт уходит только путь к файлу, см. `SKILL.md` («JSON handoff»).
 
 ## Что происходит в чате
 
 - Ответы обычно короткие: что сделано, путь к файлу, куда смотреть. Простыни спецификаций в сообщение не перекладывают специально — их читают из папки задачи.
 - Иногда система попросит одно чёткое подтверждение за раз, не «согласен со всем подряд одной фразой». Это снижает путаницу: что именно вы утвердили.
-- После успешного ревью кода по конвейеру оркестратор задаёт **отдельное** сообщение с вопросом о запуске фазы документации (**gate `g_doc`** в `workflow-state.md`); отказ от фазы 9 тоже оформляется явной фразой, см. `.cursor/skills/1c-lean-pipeline/SKILL.md`, § «Фаза 9 и gate `g_doc`».
+- После успешного ревью кода по конвейеру оркестратор задаёт **отдельное** сообщение с вопросом о запуске фазы документации (**gate `g_doc`** в `workflow-state.md`); отказ от фазы 9 тоже оформляется явной фразой, см. `SKILL.md`, § «Фаза 9 и gate `g_doc`».
 - Если вы просите «всё сразу, без остановок», в регламенте предусмотрен осознанный ускоренный режим — только при явной формулировке с вашей стороны и с записью в состоянии задачи. Иначе по умолчанию действуют обычные паузы на согласование — это не придирка, а страховка от недопонимания.
 
 ## Кто трогает код в `src/`
@@ -42,13 +42,25 @@
 
 - Воркфлоу опирается на идеи и структуру [AndreevED/1c-ai-feature-dev-workflow](https://github.com/AndreevED/1c-ai-feature-dev-workflow) (в том репозитории — исходный AI-воркфлоу для доработок 1С; корни подхода — feature-dev Anthropic).
 - Агент `1c-code-explorer` — адаптированный вариант агента исследования кодовой базы из линии [AndreevED/1c-ai-feature-dev-workflow](https://github.com/AndreevED/1c-ai-feature-dev-workflow).
-- Остальные агенты и роли (`1c-developer`, `1c-architect`, `1c-arch-reviewer`, `1c-code-reviewer`, `1c-doc-writer`, `1c-analytic` и связанная инфраструктура правил, MCP, навыков) ориентированы на набор [comol/ai_rules_1c](https://github.com/comol/ai_rules_1c): правила в `.cursor/rules/`, агенты в `.cursor/agents/`.
+- Остальные агенты и роли (`1c-developer`, `1c-architect`, `1c-arch-reviewer`, `1c-code-reviewer`, `1c-doc-writer`, `1c-analytic` и связанная инфраструктура правил, MCP, навыков) ориентированы на набор [comol/ai_rules_1c](https://github.com/comol/ai_rules_1c): правила и агенты размещаются в каталогах активного инструмента.
 
 Навык не содержит полных промптов агентов — только маршрутизацию фаз и артефактов.
 
+## Поддерживаемые инструменты
+
+Исходники поставки лежат в `content/`, а `adapters/*.yaml` раскладывают их под конкретный клиент.
+
+Поддерживаются:
+
+- Cursor
+- Claude Code
+- OpenAI Codex CLI
+- OpenCode
+- Kilo Code
+
 ## Как вызывать
 
-Триггеры и краткое назначение заданы в поле `description` в frontmatter `.cursor/skills/1c-lean-pipeline/SKILL.md`. В Cursor навык подключают, когда нужен экономичный по контексту полноценный конвейер доработки 1С с обязательными согласованиями ключевых артефактов.
+Триггеры и краткое назначение заданы в поле `description` в frontmatter `SKILL.md`. Навык подключают, когда нужен экономичный по контексту полноценный конвейер доработки 1С с обязательными согласованиями ключевых артефактов.
 
 Пример:
 
@@ -58,9 +70,43 @@
 
 ## Установка
 
-1. Развернуть в проекте содержимое [comol/ai_rules_1c](https://github.com/comol/ai_rules_1c) в `.cursor/` (правила, агенты — в т.ч. для аналитики, архитектуры, разработки, исследования и ревью) и настроить MCP-серверы по документации репозитория.
-2. Скопировать правило Cursor `code-explorer-rules.mdc` в каталог `.cursor/rules/` целевого проекта. Оно задаёт шаблоны путей к объектам 1С, приоритет MCP при поиске и правила глубокой трассировки; без него поведение **`1c-code-explorer`** может не совпадать с ожидаемым.
-3. Скопировать каталог навыка `1c-lean-pipeline` в `.cursor/skills/` текущего репозитория.
+Сначала разверните в целевом проекте [comol/ai_rules_1c](https://github.com/comol/ai_rules_1c) и настройте MCP-серверы по его документации. Этот репозиторий добавляет поверх базового набора только lean-pipeline skill, правило трассировки и адаптированный `1c-code-explorer`.
+
+### Установка через агента
+
+Откройте целевой проект в нужном ИИ-инструменте и отправьте агенту:
+
+```text
+Установи skill из https://github.com/jsfilatov/1c-lean-pipeline по AGENT-INSTALL.md
+```
+
+Агент должен прочитать `AGENT-INSTALL.md`, определить активные инструменты (`.cursor/`, `.claude/`, `.codex/`, `.opencode/`, `.kilocode/`) и разложить файлы по адаптерам. Состояние установки хранится в `.1c-lean-pipeline.json`; `.ai-rules.json` базового набора не изменяется.
+
+### PowerShell fallback
+
+```powershell
+git clone https://github.com/jsfilatov/1c-lean-pipeline.git $env:TEMP\1c-lean-pipeline
+& $env:TEMP\1c-lean-pipeline\install.ps1 init -Source $env:TEMP\1c-lean-pipeline
+```
+
+Команды установщика:
+
+```powershell
+.\install.ps1 init   -Source <path> [-Tools cursor,claude-code,codex,opencode,kilocode]
+.\install.ps1 update -Source <path> [-Tools cursor,claude-code,codex,opencode,kilocode]
+.\install.ps1 add    -Source <path> -Tool opencode
+.\install.ps1 remove [-Tool opencode]
+.\install.ps1 doctor [-Source <path>]
+.\install.ps1 eject
+```
+
+Целевые каталоги skill:
+
+- Cursor: `.cursor/skills/1c-lean-pipeline/`
+- Claude Code: `.claude/skills/1c-lean-pipeline/`
+- Codex: `.codex/skills/1c-lean-pipeline/`
+- OpenCode: `.opencode/skills/1c-lean-pipeline/`
+- Kilo Code: `.kilocode/skills/1c-lean-pipeline/`
 
 ## Когда не использовать
 
@@ -76,8 +122,8 @@
 
 ## Риски и сопровождение
 
-- Источник истины по шагам и контрольным точкам — `.cursor/skills/1c-lean-pipeline/SKILL.md`; при изменении регламента имеет смысл при необходимости обновить этот README, если меняются смысл процесса или зависимости.
-- Имена агентов в вызовах должны совпадать с `name` в frontmatter файлов в `.cursor/agents/`.
+- Источник истины по шагам и контрольным точкам — `content/skills/1c-lean-pipeline/SKILL.md`; при изменении регламента имеет смысл при необходимости обновить этот README, если меняются смысл процесса или зависимости.
+- Имена агентов в вызовах должны совпадать с `name` в frontmatter файлов в tool-native каталоге агентов.
 - Если `workflow-state.md` потерян или не совпадает с файлами на диске, следующая сессия может начаться с уточняющих вопросов — это нормальная защита от неверных предположений.
 
 ## Лицензии сторонних репозиториев
