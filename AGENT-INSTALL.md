@@ -57,6 +57,8 @@ For every selected tool:
 4. If the adapter has an `entry` block, create the entry file only when it does
    not already exist. Never overwrite a user-authored entry file silently.
 5. Write or refresh `.1c-lean-pipeline.json`.
+6. If the target project already has `.gitignore`, ensure it contains
+   `.1c-lean-pipeline.json`. Do not create `.gitignore` just for this entry.
 
 OpenCode note: use `.opencode/skills/1c-lean-pipeline/` as the native OpenCode
 skill path. OpenCode can also read `.claude/skills/`, but this installer keeps
@@ -75,6 +77,9 @@ add-on. It must contain:
 - `foreignFiles[]` for existing files that were not overwritten
 
 Do not modify `.ai-rules.json`; it belongs to `comol/ai_rules_1c`.
+
+When `.gitignore` exists, `.1c-lean-pipeline.json` should be listed there
+because it is install-state, not project source.
 
 ### Update / Add / Remove
 

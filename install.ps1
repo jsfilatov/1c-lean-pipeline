@@ -179,6 +179,20 @@ function Write-Manifest {
     $Manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $path -Encoding UTF8
 }
 
+function Ensure-GitignoreEntry {
+    param([string]$Root)
+    $path = Join-Path $Root '.gitignore'
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { return }
+
+    $lines = @(Get-Content -LiteralPath $path -Encoding UTF8)
+    if ($lines -contains $ManifestName) { return }
+
+    if ($lines.Count -gt 0 -and $lines[-1] -ne '') {
+        Add-Content -LiteralPath $path -Value '' -Encoding UTF8
+    }
+    Add-Content -LiteralPath $path -Value $ManifestName -Encoding UTF8
+}
+
 function Test-OwnedTarget {
     param([object]$Manifest, [string]$ToolName, [string]$Target)
     foreach ($file in @($Manifest.files)) {
@@ -480,4 +494,5 @@ foreach ($toolName in $SelectedTools) {
 
 $manifest.tools = @(@($manifest.tools) + $SelectedTools | Select-Object -Unique)
 Write-Manifest $ProjectRoot $manifest
+Ensure-GitignoreEntry $ProjectRoot
 Write-Host ("Installed 1c-lean-pipeline for: " + ($SelectedTools -join ', '))

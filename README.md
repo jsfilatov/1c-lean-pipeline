@@ -80,7 +80,7 @@
 Установи skill из https://github.com/jsfilatov/1c-lean-pipeline по AGENT-INSTALL.md
 ```
 
-Агент должен прочитать `AGENT-INSTALL.md`, определить активные инструменты (`.cursor/`, `.claude/`, `.codex/`, `.opencode/`, `.kilocode/`) и разложить файлы по адаптерам. Состояние установки хранится в `.1c-lean-pipeline.json`; `.ai-rules.json` базового набора не изменяется.
+Агент должен прочитать `AGENT-INSTALL.md`, определить активные инструменты (`.cursor/`, `.claude/`, `.codex/`, `.opencode/`, `.kilocode/`) и разложить файлы по адаптерам. Состояние установки хранится в `.1c-lean-pipeline.json`; `.ai-rules.json` базового набора не изменяется. Если в проекте уже есть `.gitignore`, установщик добавляет туда `.1c-lean-pipeline.json`.
 
 ### PowerShell fallback
 
