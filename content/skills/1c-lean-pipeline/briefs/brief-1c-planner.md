@@ -1,9 +1,9 @@
-﻿## OpenSpec tasks и индекс контекста 1С
+## OpenSpec tasks и индекс контекста 1С
 
 ## Машинный handoff (JSON)
 
-- **Запрос:** `{{HANDOFF_JSON}}` — JSON, соответствующий схеме `schemas/handoff-request.schema.json`. Сначала используй `slices`, `anchors`, `read_paths`; полные gate-файлы читай по `gate_documents.*.path`, если среза недостаточно или есть риск устаревания после правок пользователя на gate (ориентир — `source_revision` в JSON и фактическое содержимое файла).
-- **Ответ (опционально):** если оркестратор подставил непустой путь `{{HANDOFF_RESPONSE_JSON}}`, запиши туда JSON по схеме `schemas/handoff-response.schema.json`; иначе достаточно раздела «Ответ в чат» ниже.
+- **Запрос:** `{{HANDOFF_JSON}}` — JSON, соответствующий схеме `.cursor/skills/1c-lean-pipeline/schemas/handoff-request.schema.json`. Сначала используй `slices`, `anchors`, `read_paths`; полные gate-файлы читай по `gate_documents.*.path`, если среза недостаточно или есть риск устаревания после правок пользователя на gate (ориентир — `source_revision` в JSON и фактическое содержимое файла).
+- **Ответ (опционально):** если оркестратор подставил непустой путь `{{HANDOFF_RESPONSE_JSON}}`, запиши туда JSON по схеме `.cursor/skills/1c-lean-pipeline/schemas/handoff-response.schema.json`; иначе достаточно раздела «Ответ в чат» ниже.
 
 - **Каталог задачи:** {{TASK_DIR}}
 
@@ -26,4 +26,3 @@
 ## Ответ в чат
 
 3–7 строк + пути к OpenSpec `tasks.md` и `phase9-context-index.md`.
-

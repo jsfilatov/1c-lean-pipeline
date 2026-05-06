@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://local/1c-lean-pipeline/handoff-request.schema.json",
+  "$id": "https://local.cursor/1c-lean-pipeline/handoff-request.schema.json",
   "title": "1c-lean-pipeline HandoffRequest",
   "type": "object",
   "additionalProperties": false,
@@ -36,7 +36,7 @@
     "phase": {
       "type": "integer",
       "minimum": 0,
-      "maximum": 9
+      "maximum": 11
     },
     "feature_slug": {
       "type": "string"
@@ -77,7 +77,7 @@
     },
     "write_hint": {
       "type": "string",
-      "description": "Краткая подсказка оркестратора, куда писать результат"
+      "description": "Краткая подсказка оркестратора, куда писать результат. По регламенту 1c-lean-pipeline обязательно для handoff фазы 10."
     },
     "gate_documents": {
       "type": "object",
@@ -92,7 +92,7 @@
     "spec_deltas": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Опциональные пути к delta specs под openspec/changes/<change-id>/specs/**/spec.md; содержимое не встраивать"
+      "description": "Опциональные на уровне схемы пути к delta specs под openspec/changes/<change-id>/specs/**/spec.md; содержимое не встраивать. По регламенту 1c-lean-pipeline для фаз 4+ передавай актуальные пути, для фазы 10 spec_deltas обязательны в handoff."
     },
     "slices": {
       "type": "object",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://local/1c-lean-pipeline/handoff-response.schema.json",
+  "$id": "https://local.cursor/1c-lean-pipeline/handoff-response.schema.json",
   "title": "1c-lean-pipeline HandoffResponse",
   "type": "object",
   "additionalProperties": false,
